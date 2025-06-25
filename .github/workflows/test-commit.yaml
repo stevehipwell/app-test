@@ -70,11 +70,12 @@ jobs:
           fi
 
           if [[ "$(git rev-list --count HEAD)" != "1" ]]; then
+            check_name='${{ inputs.check_name }}'
             previous_commit="$(git rev-parse HEAD~1)"
 
             retries=3
             while ((retries > 0)); do
-              outcome="$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/repos/${{ github.repository }}/commits/${previous_commit}/check-runs?app_id=${{ inputs.app_id }}&check_name=${{ inputs.check_name }}" | jq -r '.check_runs[0] // {status: "completed",conclusion: "success"} | if .status == "completed" then .conclusion else "pending" end')"
+              outcome="$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/repos/${{ github.repository }}/commits/${previous_commit}/check-runs?app_id=${{ inputs.app_id }}&check_name=${check_name// /%20}" | jq -r '.check_runs[0] // {status: "completed",conclusion: "success"} | if .status == "completed" then .conclusion else "pending" end')"
 
               if [[ "${outcome}" == "success" ]]; then
                 break
