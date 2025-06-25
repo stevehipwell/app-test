@@ -1,0 +1,24 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.sha }}
+  cancel-in-progress: true
+
+permissions: read-all
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
