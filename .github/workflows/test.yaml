@@ -3,12 +3,12 @@ name: Test Workflow
 on:
   workflow_dispatch:
     inputs:
-      sha:
+      commit_sha:
         description: The commit SHA to test.
         required: true
 
 concurrency:
-  group: test-${{ inputs.sha }}
+  group: test-${{ inputs.commit_sha }}
   cancel-in-progress: true
 
 permissions: read-all
