@@ -1,4 +1,4 @@
-name: Test Workflow
+name: Test Commit Workflow
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ on:
         type: string
         required: true
 
-run-name: Test Workflow (${{ inputs.commit_sha }})
+run-name: Test Commit Workflow (${{ inputs.commit_sha }})
 
 permissions: read-all
 
@@ -54,6 +54,8 @@ jobs:
       - name: Check
         run: |
           set -euo pipefail
+
+          sleep 5s
 
           if [[ "$(( $RANDOM % 2 ))" != "1" ]]; then
             echo "Failure."
