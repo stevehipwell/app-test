@@ -5,11 +5,11 @@ on:
     inputs:
       app_id:
         description: The ID of the app triggering.
-        type: number
+        type: string
         required: true
       check_run_id:
         description: The ID of the check run.
-        type: number
+        type: string
         required: true
       commit_sha:
         description: The commit SHA to test.
@@ -56,9 +56,11 @@ jobs:
           set -euo pipefail
 
           if [[ "$(( $RANDOM % 2 ))" != "1" ]]; then
-            echo "No changes to test."
+            echo "Failure."
             exit 1
           fi
+
+          echo "Success."
 
       - name: Notify end
         if: always()
