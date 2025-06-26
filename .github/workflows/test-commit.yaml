@@ -40,7 +40,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          payload='{"appID":${{ inputs.app_id }},"checkRunID":${{ inputs.check_run_id }},"workflowRunID":${{ github.run_id }},"commitSHA":"${{ inputs.commit_sha }}"}'
+          payload='{"checkRunID":${{ inputs.check_run_id }},"workflowRunID":${{ github.run_id }},"commitSHA":"${{ inputs.commit_sha }}"}'
           echo "payload=${payload}" >> "${GITHUB_OUTPUT}"
 
       - name: Notify start
