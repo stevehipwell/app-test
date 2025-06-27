@@ -73,15 +73,15 @@ jobs:
             check_name='${{ inputs.check_name }}'
             previous_commit="$(git rev-parse HEAD~1)"
 
-            retries=3
+            retries=10
             while ((retries > 0)); do
               outcome="$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/repos/${{ github.repository }}/commits/${previous_commit}/check-runs?app_id=${{ inputs.app_id }}&check_name=${check_name// /%20}" | jq -r '.check_runs[0] // {status: "completed",conclusion: "success"} | if .status == "completed" then .conclusion else "pending" end')"
 
               if [[ "${outcome}" == "success" ]]; then
                 break
               elif [[ "${outcome}" == "pending" ]]; then
-                echo "Previous check run not completed. Retrying in 30 seconds..."
-                sleep 30s
+                echo "Previous check run not completed. Retrying in 10 seconds..."
+                sleep 10s
                 ((retries --))
                 continue
               else
